@@ -10,7 +10,7 @@ export PS4='[\D{%FT%TZ}] ${BASH_SOURCE}:${LINENO}: ${FUNCNAME[0]:+${FUNCNAME[0]}
 set -o xtrace
 
 # Include common utility functions (then run the boilerplate)
-source /opt/smartdc/sdc-boot/scripts/util.sh
+source /opt/smartdc/sdc-boot/lib/util.sh
 sdc_common_setup
 
 # Cookie to identify this as a SmartDC zone and its role
