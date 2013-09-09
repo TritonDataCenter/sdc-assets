@@ -15,10 +15,10 @@ mkdir -p ${tmpdir}/site
 # update/create sdc-scripts
 git submodule update --init ${ROOT}/deps/sdc-scripts
 
-# copy in sdc-boot scripts
-mkdir -p ${tmpdir}/root/opt/smartdc/sdc-boot
-cp -R ${ROOT}/deps/sdc-scripts/* ${tmpdir}/root/opt/smartdc/sdc-boot/
-cp -R ${ROOT}/sdc-boot/* ${tmpdir}/root/opt/smartdc/sdc-boot/
+# copy in boot scripts
+mkdir -p ${tmpdir}/root/opt/smartdc/boot
+cp -R ${ROOT}/deps/sdc-scripts/* ${tmpdir}/root/opt/smartdc/boot/
+cp -R ${ROOT}/boot/* ${tmpdir}/root/opt/smartdc/boot/
 
 ( cd ${tmpdir}; tar -jcf ${ROOT}/${RELEASE_TARBALL} root site)
 
