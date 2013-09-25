@@ -10,7 +10,7 @@ set -o pipefail
 export PS4='[\D{%FT%TZ}] ${BASH_SOURCE}:${LINENO}: ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 set -o xtrace
 
-cat >/opt/local/etc/nginx/nginx.conf <<NGINX
+cat >/opt/local/etc/nginx/nginx.conf.new <<NGINX
 user  www  www;
 worker_processes  1;
 
@@ -43,6 +43,11 @@ http {
     }
 }
 NGINX
+
+if ! cmp /opt/local/etc/nginx/nginx.conf.new /opt/local/etc/nginx/nginx.conf; then
+    cat /opt/local/etc/nginx/nginx.conf.new >/opt/local/etc/nginx/nginx.conf
+    svcadm restart nginx
+fi
 
 # Just in case, create /var/logadm
 if [[ ! -d /var/logadm ]]; then
