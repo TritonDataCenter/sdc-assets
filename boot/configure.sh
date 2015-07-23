@@ -28,7 +28,7 @@ http {
     include       /opt/local/etc/nginx/mime.types;
     default_type  application/octet-stream;
 
-    sendfile        on;
+    sendfile        off;
     keepalive_timeout  65;
 
     server {
