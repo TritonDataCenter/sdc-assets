@@ -7,7 +7,7 @@
 #
 
 #
-# Copyright (c) 2014, Joyent, Inc.
+# Copyright (c) 2018, Joyent, Inc.
 #
 
 # set -o errexit
@@ -23,7 +23,7 @@ sdc_common_setup
 # Cookie to identify this as a SmartDC zone and its role
 mkdir -p /var/smartdc/assets
 
-nginx_manifest="/opt/local/share/smf/nginx/manifest.xml"
+nginx_manifest="/opt/local/lib/svc/manifest/nginx.xml"
 
 # Import nginx (config is already setup by configure above)
 if [[ -z $(/usr/bin/svcs -a | grep nginx) ]]; then
