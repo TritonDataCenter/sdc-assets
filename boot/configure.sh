@@ -38,7 +38,6 @@ http {
         location / {
             root   /assets;
             index  index.html index.htm;
-            autoindex on;
         }
 
         error_page   500 502 503 504  /50x.html;
