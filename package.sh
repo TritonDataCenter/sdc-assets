@@ -6,7 +6,7 @@
 #
 
 #
-# Copyright (c) 2014, Joyent, Inc.
+# Copyright (c) 2019, Joyent, Inc.
 #
 
 set -o xtrace
@@ -14,6 +14,10 @@ set -o errexit
 
 RELEASE_TARBALL=$1
 echo "Building ${RELEASE_TARBALL}"
+
+if [[ -z "$TAR" ]]; then
+	TAR=gtar
+fi
 
 ROOT=$(pwd)
 
@@ -29,6 +33,6 @@ mkdir -p ${tmpdir}/root/opt/smartdc/boot
 cp -R ${ROOT}/deps/sdc-scripts/* ${tmpdir}/root/opt/smartdc/boot/
 cp -R ${ROOT}/boot/* ${tmpdir}/root/opt/smartdc/boot/
 
-( cd ${tmpdir}; tar -jcf ${ROOT}/${RELEASE_TARBALL} root site)
+( cd ${tmpdir}; ${TAR} -I pigz -cf ${ROOT}/${RELEASE_TARBALL} root site)
 
 rm -rf ${tmpdir}

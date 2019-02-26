@@ -5,7 +5,7 @@
 #
 
 #
-# Copyright (c) 2014, Joyent, Inc.
+# Copyright (c) 2019, Joyent, Inc.
 #
 
 NAME=assets
@@ -14,7 +14,7 @@ ifeq ($(VERSION), "")
     @echo "Use gmake"
 endif
 
-TAR = tar
+TAR = gtar
 
 ifeq ($(TIMESTAMP),)
     TIMESTAMP=$(shell date -u "+%Y%m%dT%H%M%SZ")
@@ -24,7 +24,29 @@ ASSETS_PUBLISH_VERSION := $(shell git symbolic-ref HEAD | \
       awk -F / '{print $$3}')-$(TIMESTAMP)-g$(shell \
                 git describe --all --long | awk -F '-g' '{print $$NF}')
 
-RELEASE_TARBALL=assets-pkg-$(ASSETS_PUBLISH_VERSION).tar.bz2
+RELEASE_TARBALL=assets-pkg-$(ASSETS_PUBLISH_VERSION).tar.gz
+
+#
+# Stuff used for buildimage
+#
+BASE_IMAGE_UUID		= 04a48d7d-6bb5-4e83-8c3b-e60a99e0f48f
+BUILDIMAGE_NAME		= assets
+BUILDIMAGE_DESC		= SDC Assets
+BUILDIMAGE_PKGSRC	= nginx-1.11.1nb1
+
+AGENTS = amon
+
+DISTCLEAN_FILES += root
+
+ENGBLD_USE_BUILDIMAGE	= true
+ENGBLD_REQUIRE		:= $(shell git submodule update --init deps/eng)
+include ./deps/eng/tools/mk/Makefile.defs
+TOP ?= $(error Unable to access eng.git submodule Makefiles.)
+
+ifeq ($(shell uname -s),SunOS)
+	include ./deps/eng/tools/mk/Makefile.agent_prebuilt.defs
+endif
+
 
 .PHONY: all
 
@@ -36,12 +58,10 @@ $(RELEASE_TARBALL):
 	TAR=$(TAR) bash package.sh $(RELEASE_TARBALL)
 
 publish:
-	@if [[ -z "$(BITS_DIR)" ]]; then \
-      echo "error: 'BITS_DIR' must be set for 'publish' target"; \
-      exit 1; \
-    fi
-	mkdir -p $(BITS_DIR)/assets
-	cp $(RELEASE_TARBALL) $(BITS_DIR)/assets/$(RELEASE_TARBALL)
+	mkdir -p $(ENGBLD_BITS_DIR)/assets
+	cp $(RELEASE_TARBALL) $(ENGBLD_BITS_DIR)/assets/$(RELEASE_TARBALL)
 
-clean:
-	rm -fr assets-*.tar.bz2
+include ./deps/eng/tools/mk/Makefile.targ
+ifeq ($(shell uname -s),SunOS)
+	include ./deps/eng/tools/mk/Makefile.agent_prebuilt.targ
+endif
