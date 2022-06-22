@@ -6,12 +6,13 @@
 
 <!--
     Copyright (c) 2014, Joyent, Inc.
+    Copyright 2022 MNX Cloud, Inc.
 -->
 
 # sdc-assets
 
-This repository is part of the Joyent SmartDataCenter project (SDC).  For
+This repository is part of the Triton Data Center project.  For
 contribution guidelines, issues, and general documentation, visit the main
-[SDC](http://github.com/joyent/sdc) project page.
+[Triton](http://github.com/TritonDataCenter/triton) project page.
 
 This builds the 'assets' zone which serves headnode files to CNs via HTTP.
