@@ -6,6 +6,7 @@
 
 #
 # Copyright (c) 2019, Joyent, Inc.
+# Copyright 2022 MNX Cloud, Inc.
 #
 
 NAME=assets
@@ -29,7 +30,8 @@ RELEASE_TARBALL=assets-pkg-$(ASSETS_PUBLISH_VERSION).tar.gz
 #
 # Stuff used for buildimage
 #
-BASE_IMAGE_UUID		= a9368831-958e-432d-a031-f8ce6768d190
+# triton-origin-x86_64-21.4.0
+BASE_IMAGE_UUID		= 502eeef2-8267-489f-b19c-a206906f57ef
 BUILDIMAGE_NAME		= assets
 BUILDIMAGE_DESC		= SDC Assets
 BUILDIMAGE_PKGSRC	= nginx
@@ -42,6 +44,8 @@ ENGBLD_USE_BUILDIMAGE	= true
 ENGBLD_REQUIRE		:= $(shell git submodule update --init deps/eng)
 include ./deps/eng/tools/mk/Makefile.defs
 TOP ?= $(error Unable to access eng.git submodule Makefiles.)
+
+BUILD_PLATFORM  = 20210826T002459Z
 
 ifeq ($(shell uname -s),SunOS)
 	include ./deps/eng/tools/mk/Makefile.agent_prebuilt.defs
